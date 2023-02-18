@@ -26,18 +26,26 @@ users = [
     }
 ]
 ```
+
 ```
-users_schema = '''
-    id INT,
-    first_name STRING,
-    last_name STRING,
-    email STRING,
-    is_customer BOOLEAN,
-    amount_id FLOAT,
-    customer_from DATE,
-    last_updated_ts TIMESTAMP
-'''
+from pyspark.sql.types import *
 ```
+
 ```
-df = spark.createDataFrame(users, schema = users_schema)
+users_schema = StructType(
+    [
+        StructField('id', IntegerType()),
+        StructField('first_name', StringType()),
+        StructField('last_name', StringType()),
+        StructField('email', StringType()),
+        StructField('is_customer', IntegerType()),
+        StructField('amount_paid', FloatType()),
+        StructField('customer_from', DateType()),
+        StructField('last_updated_ts', TimestampType())
+    ]
+)
+```
+
+```
+spark.createDataFrame(users, schema = users_schema)
 ```

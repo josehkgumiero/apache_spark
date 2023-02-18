@@ -26,18 +26,63 @@ users = [
     }
 ]
 ```
+
 ```
-users_schema = '''
-    id INT,
-    first_name STRING,
-    last_name STRING,
-    email STRING,
-    is_customer BOOLEAN,
-    amount_id FLOAT,
-    customer_from DATE,
-    last_updated_ts TIMESTAMP
-'''
+import pandas as pd
 ```
+
 ```
-df = spark.createDataFrame(users, schema = users_schema)
+pd.DataFrame(users)
+```
+
+```
+df = spark.createDataFrame(pd.DataFrame(users))
+```
+
+```
+df.show()
+```
+
+```
+df.printSchema()
+```
+
+```
+df.select('id','email').show(truncate=False)
+```
+
+```
+df.columns
+```
+
+```
+df.dtypes
+```
+
+```
+from pyspark.sql.functions import explode
+```
+
+```
+df. \
+    withColumn('email', explode('email')). \
+    drop('email'). \
+    show()
+```
+
+```
+from pyspark.sql.functions import col
+```
+
+```
+df. \
+    select('id', col('email')[0].alias('address1'), col('email')[1].alias('address2')). \
+    show()
+```
+
+```
+df. \
+    withColumn('email', explode_outer('email')). \
+    drop('email'). \
+    show()
 ```

@@ -26,18 +26,23 @@ users = [
     }
 ]
 ```
+
 ```
-users_schema = '''
-    id INT,
-    first_name STRING,
-    last_name STRING,
-    email STRING,
-    is_customer BOOLEAN,
-    amount_id FLOAT,
-    customer_from DATE,
-    last_updated_ts TIMESTAMP
-'''
+import pandas as pd
 ```
+
 ```
-df = spark.createDataFrame(users, schema = users_schema)
+pd.DataFrame(users)
+```
+
+```
+df = spark.createDataFrame(pd.DataFrame(users))
+```
+
+```
+df.show()
+```
+
+```
+df.printSchema()
 ```
